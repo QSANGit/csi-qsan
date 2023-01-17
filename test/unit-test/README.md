@@ -1,25 +1,64 @@
-# Sanity Test
-There is a csi-sanity issue that it doesn't pass volume_context parameter to ControllerVolumeRequest() while SP has reported volume_context in CreateVolumeResponse().
-I fix the code from kubernetes-csi/csi-test with v5.0.0 tag that released on Aug 4, 2022.
-
-## Version
-```
-# csi-sanity -version
-Version = (qsan)
-```
-
 ## Usage
-Generate a config.yaml file of StorageClass parameters for csi-sanity utility. Here is an example of config.yaml content:
+Method1: Use go test
 ```
-protocol: iscsi
-server: 192.168.217.201
-pool: Pool_Johnson
-iscsiPortals: 192.168.217.236
-iscsiTargets: iqn.2004-08.com.qsan:xs3316-000ec9aed:dev3.ctr2
+# go test -timeout 3600s
 ```
 
-Run sanity test
+Method2: Use go run main utility
 ```
-# kubectl create -f testing.yaml
-# csi-sanity --ginkgo.v -csi.endpoint dns:///${master_ip}:$(kubectl get "services/csi-service" -n qsan -o "jsonpath={..nodePort}") -csi.testvolumeparameters config.yaml
+# go run test.go start
+# go run test.go clean
 ```
+
+Method3: Use go binary utility
+```
+# ./bin/test start
+# ./bin/test clean
+```
+
+Note: Remember to modify qsan-auth.yaml before testing.
+
+
+## Test Scope
+```
+Namespace: qtest
+StorageClass: qtest-xevo-storage
+Scope:
+  ReadWriteMany with rw/ro
+  ReadWriteOnce with rw/ro
+  ReadWriteMany block device  (using dd)
+  ReadWriteOnce block device (using mke2fs)
+  Online & offline volume expansion
+  Web service with StatefulSet
+Test elapsed time
+```
+
+## Test Flow
++ Deploy CSI Driver
+  * Deploy CSI driver if not exists
++ Deploy StorageClass
++ Deploy test pod
++ Test Access
+  * Verify ReadWriteMany with rw
+  * Verify ReadWriteMany with ro
+  * Verify ReadWriteOnce with rw
+  * Verify ReadWriteOnce with ro
+  * Verify ReadWriteMany block device using dd
+  * Verify ReadWriteOnce block device using mke2fs
++ Test expansion
+  * Extend pvc-extend size to 21G
+  * Extend pvc-rwm-file-rw size to 22G
+  * Check if pvc-extend size is 21G
+  * Check if pvc-rwm-file-rw filesystem size is 22G
++ TestWebService
+  * Create nginx web server
+  * Wait nginx pod ready
+  * Generate index.html
+  * Check web service
++ Cleanup
+  * Delete nginx pod & service if exists
+  * Delete nginx pvc if exists
+  * Delete test pod if exists
+  * Delete StorageClass if exists
+  * Uninstall CSI Driver if deployed before
+  
