@@ -16,7 +16,7 @@ Method3: Use go binary utility
 # ./bin/test clean
 ```
 
-Note: Remember to modify qsan-auth.yaml before testing.
+Note: Remember to modify deploy/qsan-auth.yaml and test/unit-test/yaml/sc.yaml before testing.
 
 
 ## Test Scope
