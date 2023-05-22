@@ -1,0 +1,12 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: qsan-xevo-storage
+provisioner: xevo.csi.qsan.com
+parameters:
+  protocol: iscsi
+  server: 192.168.201.85
+  pool: Pool_01
+  iscsiPortals: 192.168.201.201
+  iscsiTargets: iqn.2004-08.com.qsan:xs5312-000d5b3a0:dev2.ctr1
+allowVolumeExpansion: true

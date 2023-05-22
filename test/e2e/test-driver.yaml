@@ -1,0 +1,24 @@
+StorageClass:
+  FromExistingClassName: qsan-xevo-storage
+DriverInfo:
+  Name: xevo.csi.qsan.com
+  RequiredAccessModes:
+  - ReadWriteOnce
+  Capabilities:
+    persistence: true
+    multipods: true
+    RWX: true
+    block: false
+    exec: true
+    singleNodeVolume: true
+    controllerExpansion: true
+    nodeExpansion: true
+    volumeLimits: true
+    topology: true
+    readWriteOncePod: true
+  TopologyKeys:
+  - topology.qsan.com/fc
+  SupportedFsType:
+    ext3: {}
+    ext4: {}
+    xfs: {}
