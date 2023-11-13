@@ -8,16 +8,17 @@ DriverInfo:
     persistence: true
     multipods: true
     RWX: true
-    block: false
+    block: true
     exec: true
     singleNodeVolume: true
     controllerExpansion: true
     nodeExpansion: true
-    volumeLimits: true
+    volumeLimits: false
     topology: true
     readWriteOncePod: true
   TopologyKeys:
   - topology.qsan.com/fc
+  - topology.qsan.com/model
   SupportedFsType:
     ext3: {}
     ext4: {}

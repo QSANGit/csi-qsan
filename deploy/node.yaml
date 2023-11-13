@@ -35,6 +35,8 @@ spec:
             - name: socket-dir
               mountPath: /csi
         - name: node-driver-registrar
+          securityContext:
+            privileged: true
           image: registry.k8s.io/sig-storage/csi-node-driver-registrar:v2.5.1
           args:
             - --v=2
@@ -66,7 +68,7 @@ spec:
             capabilities:
               add: ["SYS_ADMIN"]
             allowPrivilegeEscalation: true
-          image: hub.qsan.com/csi/qsan-xevo-csi:v1.0.0
+          image: qsandocker/qsan-xevo-csi:v1.1.0
           imagePullPolicy: Always
           args:
             - "-v=2"
@@ -140,6 +142,7 @@ spec:
         - name: host-dev
           hostPath:
             path: /dev
+            type: Directory
         - name: host-root
           hostPath:
             path: /

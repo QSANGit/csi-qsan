@@ -1,0 +1,11 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: qsan-xevo-storage
+provisioner: xevo.csi.qsan.com
+parameters:
+  protocol: fc
+  server: 192.168.201.76
+  pool: Pool_Johnson
+  target: HostGroup_002
+allowVolumeExpansion: true

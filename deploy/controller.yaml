@@ -104,7 +104,7 @@ spec:
             - name: socket-dir
               mountPath: /csi
         - name: driver
-          image: hub.qsan.com/csi/qsan-xevo-csi:v1.0.0
+          image: qsandocker/qsan-xevo-csi:v1.1.0
           securityContext:
             privileged: true
             capabilities:
